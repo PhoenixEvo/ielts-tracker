@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckSquare, Calendar, Clock, ExternalLink, Plus, Flame, Edit3, Trash2 } from 'lucide-react';
+import { CheckSquare, Calendar, Clock, ExternalLink, Plus, Flame, ChevronDown, ChevronUp, Trash2, CheckCircle2, ListPlus } from 'lucide-react';
 
 export default function DailySchedule({
   scheduleTasks,
@@ -8,37 +8,62 @@ export default function DailySchedule({
   setUserProfile
 }) {
   const [selectedPhase, setSelectedPhase] = useState('all');
-  const [newTaskDay, setNewTaskDay] = useState('Thứ Hai');
-  const [newTaskSkill, setNewTaskSkill] = useState('Reading & Writing T1');
-  const [newTaskDesc, setNewTaskDesc] = useState('');
-  const [newTaskSite, setNewTaskSite] = useState('IELTS Online Tests');
-  const [newTaskUrl, setNewTaskUrl] = useState('https://ieltsonlinetests.com');
-  const [newTaskTime, setNewTaskTime] = useState('90 phút');
-  const [newTaskPhase, setNewTaskPhase] = useState(1);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedWeek, setSelectedWeek] = useState(1);
+  const [expandedDays, setExpandedDays] = useState({});
 
-  // Filter tasks by phase
-  const filteredTasks = scheduleTasks.filter(task => {
-    if (selectedPhase === 'all') return true;
-    return task.phase === parseInt(selectedPhase, 10);
+  // Subtask addition form state per day
+  const [newSubtaskText, setNewSubtaskText] = useState({});
+  const [newSubtaskDuration, setNewSubtaskDuration] = useState({});
+  const [addingSubtaskDayId, setAddingSubtaskDayId] = useState(null);
+
+  // Available weeks
+  const availableWeeks = Array.from(new Set(scheduleTasks.map(t => t.weekNumber || 1))).sort((a, b) => a - b);
+
+  // Filter tasks by Phase and Week
+  const weekTasks = scheduleTasks.filter(task => {
+    const matchesPhase = selectedPhase === 'all' || task.phase === parseInt(selectedPhase, 10);
+    const matchesWeek = (task.weekNumber || 1) === parseInt(selectedWeek, 10);
+    return matchesPhase && matchesWeek;
   });
 
-  // Calculate completion
-  const totalCount = filteredTasks.length;
-  const completedCount = filteredTasks.filter(t => t.completed).length;
-  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  // Calculate total subtasks across current week
+  let totalSubtasks = 0;
+  let completedSubtasks = 0;
 
-  // Toggle task completion status
-  const toggleTask = (id) => {
-    const updated = scheduleTasks.map(t => {
-      if (t.id === id) {
-        return { ...t, completed: !t.completed };
+  weekTasks.forEach(dayTask => {
+    const subtasks = dayTask.subtasks || [];
+    totalSubtasks += subtasks.length;
+    completedSubtasks += subtasks.filter(st => st.completed).length;
+  });
+
+  const weekProgressPercent = totalSubtasks > 0 ? Math.round((completedSubtasks / totalSubtasks) * 100) : 0;
+
+  // Toggle individual sub-task checkbox
+  const toggleSubtask = (dayId, subtaskId) => {
+    const updated = scheduleTasks.map(dayTask => {
+      if (dayTask.id === dayId) {
+        const updatedSubtasks = (dayTask.subtasks || []).map(st => {
+          if (st.id === subtaskId) {
+            return { ...st, completed: !st.completed };
+          }
+          return st;
+        });
+
+        // Day is completed if all subtasks are completed
+        const allCompleted = updatedSubtasks.length > 0 && updatedSubtasks.every(st => st.completed);
+
+        return {
+          ...dayTask,
+          subtasks: updatedSubtasks,
+          completed: allCompleted
+        };
       }
-      return t;
+      return dayTask;
     });
+
     setScheduleTasks(updated);
 
-    // Update study streak if today has completed items
+    // Update streak counter
     const today = new Date().toISOString().split('T')[0];
     if (userProfile.lastActiveDate !== today) {
       setUserProfile(prev => ({
@@ -49,283 +74,315 @@ export default function DailySchedule({
     }
   };
 
-  // Update personal note
-  const updateNote = (id, noteVal) => {
-    const updated = scheduleTasks.map(t => {
-      if (t.id === id) {
-        return { ...t, note: noteVal };
+  // Add new sub-task to a day
+  const handleAddSubtask = (dayId) => {
+    const text = newSubtaskText[dayId];
+    if (!text || !text.trim()) return;
+
+    const duration = newSubtaskDuration[dayId] || "30p";
+
+    const updated = scheduleTasks.map(dayTask => {
+      if (dayTask.id === dayId) {
+        const newSt = {
+          id: `st-${Date.now()}`,
+          text: text.trim(),
+          duration: duration,
+          skill: dayTask.skill,
+          completed: false
+        };
+        return {
+          ...dayTask,
+          subtasks: [...(dayTask.subtasks || []), newSt]
+        };
       }
-      return t;
+      return dayTask;
+    });
+
+    setScheduleTasks(updated);
+    setNewSubtaskText({ ...newSubtaskText, [dayId]: '' });
+    setAddingSubtaskDayId(null);
+  };
+
+  // Delete a sub-task
+  const handleDeleteSubtask = (dayId, subtaskId) => {
+    const updated = scheduleTasks.map(dayTask => {
+      if (dayTask.id === dayId) {
+        return {
+          ...dayTask,
+          subtasks: (dayTask.subtasks || []).filter(st => st.id !== subtaskId)
+        };
+      }
+      return dayTask;
     });
     setScheduleTasks(updated);
   };
 
-  // Delete task
-  const deleteTask = (id) => {
-    if (window.confirm("Bạn có chắc muốn xóa nhiệm vụ này?")) {
-      setScheduleTasks(scheduleTasks.filter(t => t.id !== id));
-    }
+  // Save personal note for day
+  const updateDayNote = (dayId, noteVal) => {
+    const updated = scheduleTasks.map(dayTask => {
+      if (dayTask.id === dayId) {
+        return { ...dayTask, note: noteVal };
+      }
+      return dayTask;
+    });
+    setScheduleTasks(updated);
   };
 
-  // Add custom task
-  const handleAddTask = (e) => {
-    e.preventDefault();
-    if (!newTaskDesc.trim()) return;
-
-    const newTask = {
-      id: Date.now(),
-      day: newTaskDay,
-      skill: newTaskSkill,
-      task: newTaskDesc,
-      site: newTaskSite,
-      url: newTaskUrl || "https://ieltsonlinetests.com",
-      time: newTaskTime,
-      phase: parseInt(newTaskPhase, 10),
-      completed: false,
-      note: ""
-    };
-
-    setScheduleTasks([...scheduleTasks, newTask]);
-    setNewTaskDesc('');
-    setShowAddModal(false);
+  // Expand/collapse day card
+  const toggleExpandDay = (dayId) => {
+    setExpandedDays(prev => ({ ...prev, [dayId]: !prev[dayId] }));
   };
 
   return (
     <div className="space-y-6">
       
-      {/* Header controls & Phase selector */}
-      <div className="bg-white dark:bg-slate-800 p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      {/* Week & Phase Selector Header */}
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
             <CheckSquare className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            Lịch Học & Checklist Hàng Ngày
+            Lịch Học & Sub-Tasks Chi Tiết Từng Ngày
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Tích chọn nhiệm vụ đã hoàn thành. Ghi chú cá nhân & tiến độ được tự động đồng bộ hóa.
+            Chia nhỏ nhiệm vụ từng ngày thành các **Sub-Tasks** cụ thể (bấm giờ, làm đề, sửa câu sai, nạp từ vựng).
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-          <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+          
+          {/* Phase Select */}
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
             <span>Giai đoạn:</span>
             <select
               value={selectedPhase}
               onChange={(e) => setSelectedPhase(e.target.value)}
               className="bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-100 text-xs rounded-xl p-2 font-medium focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="all">Toàn bộ lộ trình (T8/2026 - T3/2027)</option>
+              <option value="all">Tất cả các Giai Đoạn</option>
               <option value="1">Giai đoạn 1: Nền tảng (T8 - T10/2026)</option>
               <option value="2">Giai đoạn 2: Nâng Band (T11/2026 - T1/2027)</option>
               <option value="3">Giai đoạn 3: Thực chiến (T2 - T3/2027)</option>
             </select>
           </div>
 
-          <button
-            onClick={() => setShowAddModal(!showAddModal)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 transition shadow-sm"
-          >
-            <Plus className="w-4 h-4" />
-            Thêm Nhiệm Vụ
-          </button>
+          {/* Week Select */}
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
+            <span>Tuần:</span>
+            <select
+              value={selectedWeek}
+              onChange={(e) => setSelectedWeek(e.target.value)}
+              className="bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs rounded-xl p-2 font-bold focus:ring-2 focus:ring-indigo-500"
+            >
+              {availableWeeks.map(w => (
+                <option key={w} value={w}>
+                  Tuần {w} {w === 1 ? '(12/08 - 18/08)' : w === 2 ? '(19/08 - 25/08)' : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+
         </div>
       </div>
 
-      {/* Progress Bar & Streak Card */}
-      <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-            <span>Tiến độ hoàn thành</span>
-            <span className="text-[11px] font-normal text-slate-400">({completedCount}/{totalCount} nhiệm vụ)</span>
-          </span>
-          <span className="text-xs font-extrabold text-indigo-600 dark:text-indigo-400">
-            {progressPercent}%
-          </span>
+      {/* Weekly Title & Subtask Progress Bar */}
+      <div className="bg-gradient-to-r from-indigo-900 to-slate-900 text-white p-6 rounded-3xl shadow-md border border-indigo-800">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+          <div>
+            <span className="text-[10px] uppercase tracking-wider font-extrabold bg-indigo-500/30 text-indigo-200 px-3 py-1 rounded-full border border-indigo-400/30 mb-2 inline-block">
+              {weekTasks[0]?.weekTitle || `Tuần ${selectedWeek}`}
+            </span>
+            <h3 className="text-xl font-extrabold text-white">
+              Tiến Độ Hoàn Thành Sub-Tasks Tuần {selectedWeek}
+            </h3>
+          </div>
+
+          <div className="flex items-center gap-2 bg-indigo-950/80 px-4 py-2 rounded-2xl border border-indigo-700/50">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+            <span className="text-sm font-bold text-white">
+              {completedSubtasks} / {totalSubtasks} Sub-tasks
+            </span>
+            <span className="text-sm font-extrabold text-emerald-400">
+              ({weekProgressPercent}%)
+            </span>
+          </div>
         </div>
-        <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
+
+        <div className="w-full bg-indigo-950 rounded-full h-3 overflow-hidden border border-indigo-700/50">
           <div
-            className="bg-gradient-to-r from-indigo-500 to-emerald-500 h-3 rounded-full transition-all duration-500"
-            style={{ width: `${progressPercent}%` }}
+            className="bg-gradient-to-r from-indigo-500 to-emerald-400 h-3 rounded-full transition-all duration-500"
+            style={{ width: `${weekProgressPercent}%` }}
           ></div>
         </div>
       </div>
 
-      {/* Add Task Modal / Collapse Form */}
-      {showAddModal && (
-        <form onSubmit={handleAddTask} className="bg-slate-50 dark:bg-slate-900 p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800 space-y-4">
-          <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <Plus className="w-4 h-4 text-indigo-600" /> Thêm Nhiệm Vụ Học Tập Mới
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-            <div>
-              <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Thứ / Ngày</label>
-              <select
-                value={newTaskDay}
-                onChange={(e) => setNewTaskDay(e.target.value)}
-                className="w-full p-2 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800"
-              >
-                <option>Thứ Hai</option>
-                <option>Thứ Ba</option>
-                <option>Thứ Tư</option>
-                <option>Thứ Năm</option>
-                <option>Thứ Sáu</option>
-                <option>Thứ Bảy</option>
-                <option>Chủ Nhật</option>
-              </select>
-            </div>
+      {/* Days List with Expandable Cards & Sub-tasks */}
+      <div className="space-y-4">
+        {weekTasks.map((dayTask) => {
+          const subtasks = dayTask.subtasks || [];
+          const dayCompletedCount = subtasks.filter(st => st.completed).length;
+          const dayTotalCount = subtasks.length;
+          const isAllDone = dayTotalCount > 0 && dayCompletedCount === dayTotalCount;
+          const isCollapsed = expandedDays[dayTask.id] === true;
 
-            <div>
-              <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Kỹ năng</label>
-              <input
-                type="text"
-                value={newTaskSkill}
-                onChange={(e) => setNewTaskSkill(e.target.value)}
-                placeholder="VD: Speaking Part 2"
-                className="w-full p-2 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800"
-              />
-            </div>
-
-            <div>
-              <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Thời lượng</label>
-              <input
-                type="text"
-                value={newTaskTime}
-                onChange={(e) => setNewTaskTime(e.target.value)}
-                placeholder="90 phút"
-                className="w-full p-2 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800"
-              />
-            </div>
-
-            <div>
-              <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Trang web hỗ trợ</label>
-              <input
-                type="text"
-                value={newTaskSite}
-                onChange={(e) => setNewTaskSite(e.target.value)}
-                placeholder="IELTS Online Tests"
-                className="w-full p-2 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800"
-              />
-            </div>
-
-            <div className="sm:col-span-2 lg:col-span-4">
-              <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Nhiệm vụ chi tiết</label>
-              <input
-                type="text"
-                value={newTaskDesc}
-                onChange={(e) => setNewTaskDesc(e.target.value)}
-                placeholder="VD: Luyện 1 bài Reading Passage 3 + thu âm 2 bài Speaking..."
-                required
-                className="w-full p-2 border border-slate-300 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-xs"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => setShowAddModal(false)}
-              className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-slate-700"
+          return (
+            <div
+              key={dayTask.id}
+              className={`bg-white dark:bg-slate-800 rounded-3xl border transition-all shadow-sm ${
+                isAllDone
+                  ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/20 dark:bg-emerald-950/10'
+                  : 'border-slate-200 dark:border-slate-700'
+              }`}
             >
-              Hủy
-            </button>
-            <button
-              type="submit"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-5 py-2 rounded-xl"
-            >
-              Lưu Nhiệm Vụ
-            </button>
-          </div>
-        </form>
-      )}
+              {/* Day Header */}
+              <div className="p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-sm ${
+                    isAllDone
+                      ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-300'
+                      : 'bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300'
+                  }`}>
+                    {dayTask.day.slice(0, 3)}
+                  </div>
 
-      {/* Schedule Table */}
-      <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead className="bg-slate-100 dark:bg-slate-700/60 text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
-              <tr>
-                <th className="p-3.5 w-12 text-center">Done</th>
-                <th className="p-3.5 w-24">Thứ / Ngày</th>
-                <th className="p-3.5 w-32">Kỹ năng</th>
-                <th className="p-3.5">Nhiệm vụ chi tiết</th>
-                <th className="p-3.5 w-36">Web hỗ trợ</th>
-                <th className="p-3.5 w-24 text-center">Thời lượng</th>
-                <th className="p-3.5 w-44">Ghi chú cá nhân</th>
-                <th className="p-3.5 w-12 text-center">Xóa</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-700/50">
-              {filteredTasks.map((item) => (
-                <tr
-                  key={item.id}
-                  className={`transition-colors ${
-                    item.completed
-                      ? 'bg-emerald-50/40 dark:bg-emerald-950/20 text-slate-500 dark:text-slate-400'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-100'
-                  }`}
-                >
-                  <td className="p-3.5 text-center">
-                    <input
-                      type="checkbox"
-                      checked={item.completed}
-                      onChange={() => toggleTask(item.id)}
-                      className="w-4 h-4 text-indigo-600 rounded border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-extrabold text-base text-slate-800 dark:text-white">
+                        {dayTask.day} {dayTask.dateStr && `(${dayTask.dateStr})`}
+                      </h4>
+                      <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-600">
+                        {dayTask.skill}
+                      </span>
+                    </div>
 
-                  <td className="p-3.5 font-bold text-slate-800 dark:text-slate-100">
-                    {item.day}
-                  </td>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      Tiến độ ngày: <span className="font-bold text-indigo-600 dark:text-indigo-400">{dayCompletedCount}/{dayTotalCount} Sub-tasks</span> hoàn thành
+                    </p>
+                  </div>
+                </div>
 
-                  <td className="p-3.5">
-                    <span className="inline-block px-2.5 py-1 rounded-lg font-semibold text-[11px] bg-slate-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 border border-slate-200 dark:border-slate-600">
-                      {item.skill}
-                    </span>
-                  </td>
-
-                  <td className={`p-3.5 leading-relaxed ${item.completed ? 'line-through opacity-70' : ''}`}>
-                    {item.task}
-                  </td>
-
-                  <td className="p-3.5">
+                <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                  {dayTask.site && (
                     <a
-                      href={item.url}
+                      href={dayTask.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium inline-flex items-center gap-1"
+                      className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950/60 px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800"
                     >
-                      {item.site}
-                      <ExternalLink className="w-3 h-3" />
+                      {dayTask.site} <ExternalLink className="w-3 h-3" />
                     </a>
-                  </td>
+                  )}
 
-                  <td className="p-3.5 text-center font-medium text-slate-500 dark:text-slate-400">
-                    {item.time}
-                  </td>
+                  <button
+                    onClick={() => toggleExpandDay(dayTask.id)}
+                    className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+                    title={isCollapsed ? "Mở rộng Sub-tasks" : "Thu gọn"}
+                  >
+                    {isCollapsed ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+                  </button>
+                </div>
 
-                  <td className="p-3.5">
+              </div>
+
+              {/* Sub-tasks Section */}
+              {!isCollapsed && (
+                <div className="px-5 pb-5 pt-2 border-t border-slate-100 dark:border-slate-700/60 space-y-3">
+                  
+                  <div className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center justify-between">
+                    <span>Nhiệm vụ nhỏ (Sub-tasks) cần thực hiện:</span>
+                    <button
+                      onClick={() => setAddingSubtaskDayId(addingSubtaskDayId === dayTask.id ? null : dayTask.id)}
+                      className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 font-semibold"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Thêm Sub-task
+                    </button>
+                  </div>
+
+                  {/* Add Sub-task Inline Form */}
+                  {addingSubtaskDayId === dayTask.id && (
+                    <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-2xl border border-indigo-200 dark:border-indigo-800 flex flex-col sm:flex-row items-center gap-2 animate-fadeIn">
+                      <input
+                        type="text"
+                        placeholder="VD: Reading: Phân tích 5 câu sai Passage 2..."
+                        value={newSubtaskText[dayTask.id] || ''}
+                        onChange={(e) => setNewSubtaskText({ ...newSubtaskText, [dayTask.id]: e.target.value })}
+                        className="w-full text-xs p-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Thời lượng (VD: 30p)"
+                        value={newSubtaskDuration[dayTask.id] || '30p'}
+                        onChange={(e) => setNewSubtaskDuration({ ...newSubtaskDuration, [dayTask.id]: e.target.value })}
+                        className="w-full sm:w-28 text-xs p-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl"
+                      />
+                      <button
+                        onClick={() => handleAddSubtask(dayTask.id)}
+                        className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl whitespace-nowrap"
+                      >
+                        Thêm
+                      </button>
+                    </div>
+                  )}
+
+                  {/* List of Sub-tasks */}
+                  <div className="space-y-2">
+                    {subtasks.map((st) => (
+                      <div
+                        key={st.id}
+                        className={`p-3 rounded-2xl border transition-colors flex items-start gap-3 ${
+                          st.completed
+                            ? 'bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/60 text-slate-500 dark:text-slate-400'
+                            : 'bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={st.completed}
+                          onChange={() => toggleSubtask(dayTask.id, st.id)}
+                          className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 dark:border-slate-600 focus:ring-indigo-500 cursor-pointer"
+                        />
+
+                        <div className="flex-1 text-xs leading-relaxed">
+                          <span className={`font-semibold ${st.completed ? 'line-through opacity-70' : ''}`}>
+                            {st.text}
+                          </span>
+                        </div>
+
+                        {st.duration && (
+                          <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">
+                            {st.duration}
+                          </span>
+                        )}
+
+                        <button
+                          onClick={() => handleDeleteSubtask(dayTask.id, st.id)}
+                          className="text-slate-400 hover:text-rose-500 transition p-0.5"
+                          title="Xóa sub-task"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Personal Day Note */}
+                  <div className="pt-2">
                     <input
                       type="text"
-                      value={item.note || ''}
-                      onChange={(e) => updateNote(item.id, e.target.value)}
-                      placeholder="Thêm ghi chú..."
-                      className="w-full text-xs p-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                      value={dayTask.note || ''}
+                      onChange={(e) => updateDayNote(dayTask.id, e.target.value)}
+                      placeholder="Thêm ghi chú bài học ngày hôm nay (VD: Thuộc 10 từ vựng C1, làm sai câu 15 Reading...)"
+                      className="w-full text-xs p-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                     />
-                  </td>
+                  </div>
 
-                  <td className="p-3.5 text-center">
-                    <button
-                      onClick={() => deleteTask(item.id)}
-                      className="text-slate-400 hover:text-rose-500 transition p-1"
-                      title="Xóa nhiệm vụ"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </div>
+              )}
+
+            </div>
+          );
+        })}
       </div>
 
     </div>

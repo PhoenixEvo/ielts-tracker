@@ -13,6 +13,7 @@ export const prepPhases = [
     id: 1,
     title: "Giai đoạn 1: Nền tảng & Củng cố",
     period: "Tháng 8 - Tháng 10/2026",
+    weeks: "Tuần 1 - Tuần 12",
     focus: "Phát triển từ vựng C1/C2, làm quen dạng đề, sửa ngắc ngứ Speaking & cấu trúc Writing.",
     targetOverall: 6.5
   },
@@ -20,6 +21,7 @@ export const prepPhases = [
     id: 2,
     title: "Giai đoạn 2: Nâng Band Chuyên sâu",
     period: "Tháng 11/2026 - Tháng 1/2027",
+    weeks: "Tuần 13 - Tuần 24",
     focus: "Luyện 4 kỹ năng theo dạng khó (Reading Pass 3, Listening Sec 3/4, Writing Task 2 nâng cao, Speaking Part 3 PEEL).",
     targetOverall: 7.0
   },
@@ -27,6 +29,7 @@ export const prepPhases = [
     id: 3,
     title: "Giai đoạn 3: Thực chiến Full Test",
     period: "Tháng 2 - Tháng 3/2027",
+    weeks: "Tuần 25 - Tuần 31",
     focus: "Luyện thi nén áp lực thời gian thật trên máy IOT, làm Full Test 120p, phân tích tận gốc câu sai.",
     targetOverall: 7.5
   },
@@ -34,6 +37,7 @@ export const prepPhases = [
     id: 4,
     title: "Giai đoạn 4: Sprint Tuần Thi",
     period: "Tuần cuối Tháng 3/2027",
+    weeks: "Tuần 32",
     focus: "Ôn lại sổ tay từ vựng & lỗi sai, giữ tâm lý thoải mái, thi thử nhẹ nhàng.",
     targetOverall: 7.5
   }
@@ -41,87 +45,137 @@ export const prepPhases = [
 
 export const defaultScheduleTasks = [
   {
-    id: 1,
+    id: "w1-d1",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
     day: "Thứ Hai",
+    dateStr: "12/08",
     skill: "Reading & Writing T1",
-    task: "Luyện 1 bài Passage Reading (Passage 1/2) + Phân tích câu sai. Viết 1 bài Writing Task 1 (Bar/Line/Map).",
+    subtasks: [
+      { id: "w1-d1-s1", text: "Reading: Làm Passage 1 (Cambridge 18 Test 1) bấm giờ 20p", duration: "20p", skill: "Reading", completed: true },
+      { id: "w1-d1-s2", text: "Reading: Soi đáp án, dịch lại câu sai & lập bảng Synonym/Paraphrase Table", duration: "35p", skill: "Reading", completed: true },
+      { id: "w1-d1-s3", text: "Writing T1: Phân tích đề Line Graph, viết Overview + 2 đoạn Body", duration: "50p", skill: "Writing T1", completed: false }
+    ],
     site: "IELTS Online Tests / IELTS Liz",
     url: "https://ieltsonlinetests.com",
-    time: "105 phút",
-    phase: 1,
-    completed: false,
-    note: ""
+    note: "Đã làm xong Reading Passage 1 đúng 11/13 câu."
   },
   {
-    id: 2,
+    id: "w1-d2",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
     day: "Thứ Ba",
+    dateStr: "13/08",
     skill: "Listening & Speaking P1/P2",
-    task: "Luyện Listening Section 1 & 2. Thu âm Speaking Part 1 & Part 2 theo đề thi thực tế.",
+    subtasks: [
+      { id: "w1-d2-s1", text: "Listening: Nghe Section 1 & 2 (Cam 18 Test 1) + soi bẫy từ nối", duration: "35p", skill: "Listening", completed: true },
+      { id: "w1-d2-s2", text: "Speaking P1: Luyện 5 câu hỏi chủ đề Work/Study (Trả lời 2-3 câu/câu)", duration: "30p", skill: "Speaking", completed: true },
+      { id: "w1-d2-s3", text: "Speaking P2: Thu âm bài nói 2 phút chủ đề 'Describe a skill you learned' (PPF Framework)", duration: "40p", skill: "Speaking", completed: true }
+    ],
     site: "Mini-IELTS / IELTS Liz",
     url: "https://mini-ielts.com",
-    time: "105 phút",
-    phase: 1,
-    completed: true,
-    note: "Đã thu âm Part 2 chủ đề Describe a memorable event."
+    note: "Đã thu âm file Part 2, phát âm trôi chảy hơn."
   },
   {
-    id: 3,
+    id: "w1-d3",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
     day: "Thứ Tư",
+    dateStr: "14/08",
     skill: "Reading & Writing T2",
-    task: "Phân tích kĩ thuật True/False/Not Given bài Reading. Lập dàn ý & viết 1 bài Writing Task 2.",
+    subtasks: [
+      { id: "w1-d3-s1", text: "Reading: Luyện chuyên sâu dạng bài True/False/Not Given (Passage 2)", duration: "40p", skill: "Reading", completed: true },
+      { id: "w1-d3-s2", text: "Writing T2: Lập dàn ý 4 đoạn cho đề Opinion Essay (Education/Technology)", duration: "25p", skill: "Writing T2", completed: true },
+      { id: "w1-d3-s3", text: "Writing T2: Viết hoàn chỉnh bài luận 250+ từ & tự check lại Cohesive Devices", duration: "40p", skill: "Writing T2", completed: false }
+    ],
     site: "IELTS Online Tests / IELTS Liz",
     url: "https://ieltsonlinetests.com",
-    time: "105 phút",
-    phase: 1,
-    completed: true,
-    note: "Cần chú ý từ nối Cohesive Devices."
+    note: "Dàn ý bài Opinion Essay đã chuẩn bị xong."
   },
   {
-    id: 4,
+    id: "w1-d4",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
     day: "Thứ Năm",
+    dateStr: "15/08",
     skill: "Listening & Speaking P3",
-    task: "Luyện Listening Section 3 & 4 (Phân tích bẫy Synonyms). Luyện Speaking Part 3 theo mô hình PEEL.",
+    subtasks: [
+      { id: "w1-d4-s1", text: "Listening: Luyện Section 3 (Học sinh thảo luận bài nghiên cứu) + note keywords", duration: "40p", skill: "Listening", completed: false },
+      { id: "w1-d4-s2", text: "Speaking P3: Luyện 3 câu hỏi Part 3 theo mô hình PEEL (Point-Explain-Example-Link)", duration: "45p", skill: "Speaking", completed: false },
+      { id: "w1-d4-s3", text: "Listening Dictation: Chép chính tả 1 đoạn audio BBC 6 Minute English", duration: "20p", skill: "Listening", completed: false }
+    ],
     site: "Mini-IELTS / BBC Learning",
     url: "https://www.bbc.co.uk/learningenglish",
-    time: "105 phút",
-    phase: 1,
-    completed: false,
     note: ""
   },
   {
-    id: 5,
+    id: "w1-d5",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
     day: "Thứ Sáu",
-    skill: "Vocab & Grammar",
-    task: "Học 20 Flashcards từ vựng B2-C1 theo chủ đề. Ôn lại các cấu trúc câu phức & mệnh đề quan hệ.",
+    dateStr: "16/08",
+    skill: "Vocab SRS & Grammar",
+    subtasks: [
+      { id: "w1-d5-s1", text: "Vocab: Học 20 Flashcards từ vựng B2-C1 trên mục Từ Vựng SRS", duration: "30p", skill: "Vocab", completed: true },
+      { id: "w1-d5-s2", text: "Grammar: Ôn lại cấu trúc Mệnh đề quan hệ rút gọn (Reduced Relative Clauses)", duration: "30p", skill: "Grammar", completed: false },
+      { id: "w1-d5-s3", text: "Collocations: Luyện ghép 10 cụm từ Collocation ăn điểm cho Writing T2", duration: "30p", skill: "Vocab", completed: false }
+    ],
     site: "Magoosh / Vocabulary.com",
     url: "https://ielts.magoosh.com/flashcards",
-    time: "90 phút",
-    phase: 1,
-    completed: true,
-    note: "Thuộc 15/20 từ mới."
-  },
-  {
-    id: 6,
-    day: "Thứ Bảy",
-    skill: "Full Mock Test",
-    task: "Làm 1 bài Full Test Reading + Listening nghiêm túc trong đúng 120 phút. Chấm điểm & soi câu sai.",
-    site: "IELTS Online Tests",
-    url: "https://ieltsonlinetests.com",
-    time: "150 phút",
-    phase: 1,
-    completed: false,
     note: ""
   },
   {
-    id: 7,
+    id: "w1-d6",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
+    day: "Thứ Bảy",
+    dateStr: "17/08",
+    skill: "Full Mock Test",
+    subtasks: [
+      { id: "w1-d6-s1", text: "Full Test: Làm 1 bài Mock Reading + Listening nghiêm túc 120p bấm giờ", duration: "120p", skill: "Mock Test", completed: false },
+      { id: "w1-d6-s2", text: "Review: Chấm điểm, ghi lại điểm số vào Mock Test Log & phân tích câu sai", duration: "30p", skill: "Analytics", completed: false }
+    ],
+    site: "IELTS Online Tests",
+    url: "https://ieltsonlinetests.com",
+    note: ""
+  },
+  {
+    id: "w1-d7",
+    weekNumber: 1,
+    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    phase: 1,
     day: "Chủ Nhật",
-    skill: "Review & Thư giãn",
-    task: "Nghe Podcast BBC / TED Talks giải trí. Ôn lại toàn bộ từ vựng đã học trong tuần từ sổ tay.",
+    dateStr: "18/08",
+    skill: "Review & Rest",
+    subtasks: [
+      { id: "w1-d7-s1", text: "Review: Xem lại toàn bộ sổ tay từ vựng & lỗi sai đã ghi chép trong tuần", duration: "30p", skill: "Review", completed: false },
+      { id: "w1-d7-s2", text: "Entertainment: Nghe Podcast TED Talks / BBC 6 Minute English thư giãn", duration: "30p", skill: "Listening", completed: false }
+    ],
     site: "BBC Learning English",
     url: "https://www.bbc.co.uk/learningenglish",
-    time: "45 phút",
+    note: ""
+  },
+  {
+    id: "w2-d1",
+    weekNumber: 2,
+    weekTitle: "Tuần 2: Nâng Cao Kỹ Năng Đoạn Văn & Từ Vựng C1",
     phase: 1,
-    completed: false,
+    day: "Thứ Hai",
+    dateStr: "19/08",
+    skill: "Reading & Writing T1",
+    subtasks: [
+      { id: "w2-d1-s1", text: "Reading: Làm Passage 2 (Matching Headings) - Bấm giờ 20p", duration: "20p", skill: "Reading", completed: false },
+      { id: "w2-d1-s2", text: "Reading: Lập bảng Synonym Table phân tích lý do chọn sai Heading", duration: "30p", skill: "Reading", completed: false },
+      { id: "w2-d1-s3", text: "Writing T1: Viết bài Bar Chart so sánh 2 năm (Cụm từ tăng/giảm C1)", duration: "45p", skill: "Writing T1", completed: false }
+    ],
+    site: "IELTS Online Tests / IELTS Liz",
+    url: "https://ieltsonlinetests.com",
     note: ""
   }
 ];
