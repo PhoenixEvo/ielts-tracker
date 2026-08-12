@@ -43,142 +43,237 @@ export const prepPhases = [
   }
 ];
 
-export const defaultScheduleTasks = [
-  {
-    id: "w1-d1",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Thứ Hai",
-    dateStr: "12/08",
-    skill: "Reading & Writing T1",
-    subtasks: [
-      { id: "w1-d1-s1", text: "Reading: Làm Passage 1 (Cambridge 18 Test 1) bấm giờ 20p", duration: "20p", skill: "Reading", completed: true },
-      { id: "w1-d1-s2", text: "Reading: Soi đáp án, dịch lại câu sai & lập bảng Synonym/Paraphrase Table", duration: "35p", skill: "Reading", completed: true },
-      { id: "w1-d1-s3", text: "Writing T1: Phân tích đề Line Graph, viết Overview + 2 đoạn Body", duration: "50p", skill: "Writing T1", completed: false }
-    ],
-    site: "IELTS Online Tests / IELTS Liz",
-    url: "https://ieltsonlinetests.com",
-    note: "Đã làm xong Reading Passage 1 đúng 11/13 câu."
-  },
-  {
-    id: "w1-d2",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Thứ Ba",
-    dateStr: "13/08",
-    skill: "Listening & Speaking P1/P2",
-    subtasks: [
-      { id: "w1-d2-s1", text: "Listening: Nghe Section 1 & 2 (Cam 18 Test 1) + soi bẫy từ nối", duration: "35p", skill: "Listening", completed: true },
-      { id: "w1-d2-s2", text: "Speaking P1: Luyện 5 câu hỏi chủ đề Work/Study (Trả lời 2-3 câu/câu)", duration: "30p", skill: "Speaking", completed: true },
-      { id: "w1-d2-s3", text: "Speaking P2: Thu âm bài nói 2 phút chủ đề 'Describe a skill you learned' (PPF Framework)", duration: "40p", skill: "Speaking", completed: true }
-    ],
-    site: "Mini-IELTS / IELTS Liz",
-    url: "https://mini-ielts.com",
-    note: "Đã thu âm file Part 2, phát âm trôi chảy hơn."
-  },
-  {
-    id: "w1-d3",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Thứ Tư",
-    dateStr: "14/08",
-    skill: "Reading & Writing T2",
-    subtasks: [
-      { id: "w1-d3-s1", text: "Reading: Luyện chuyên sâu dạng bài True/False/Not Given (Passage 2)", duration: "40p", skill: "Reading", completed: true },
-      { id: "w1-d3-s2", text: "Writing T2: Lập dàn ý 4 đoạn cho đề Opinion Essay (Education/Technology)", duration: "25p", skill: "Writing T2", completed: true },
-      { id: "w1-d3-s3", text: "Writing T2: Viết hoàn chỉnh bài luận 250+ từ & tự check lại Cohesive Devices", duration: "40p", skill: "Writing T2", completed: false }
-    ],
-    site: "IELTS Online Tests / IELTS Liz",
-    url: "https://ieltsonlinetests.com",
-    note: "Dàn ý bài Opinion Essay đã chuẩn bị xong."
-  },
-  {
-    id: "w1-d4",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Thứ Năm",
-    dateStr: "15/08",
-    skill: "Listening & Speaking P3",
-    subtasks: [
-      { id: "w1-d4-s1", text: "Listening: Luyện Section 3 (Học sinh thảo luận bài nghiên cứu) + note keywords", duration: "40p", skill: "Listening", completed: false },
-      { id: "w1-d4-s2", text: "Speaking P3: Luyện 3 câu hỏi Part 3 theo mô hình PEEL (Point-Explain-Example-Link)", duration: "45p", skill: "Speaking", completed: false },
-      { id: "w1-d4-s3", text: "Listening Dictation: Chép chính tả 1 đoạn audio BBC 6 Minute English", duration: "20p", skill: "Listening", completed: false }
-    ],
-    site: "Mini-IELTS / BBC Learning",
-    url: "https://www.bbc.co.uk/learningenglish",
-    note: ""
-  },
-  {
-    id: "w1-d5",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Thứ Sáu",
-    dateStr: "16/08",
-    skill: "Vocab SRS & Grammar",
-    subtasks: [
-      { id: "w1-d5-s1", text: "Vocab: Học 20 Flashcards từ vựng B2-C1 trên mục Từ Vựng SRS", duration: "30p", skill: "Vocab", completed: true },
-      { id: "w1-d5-s2", text: "Grammar: Ôn lại cấu trúc Mệnh đề quan hệ rút gọn (Reduced Relative Clauses)", duration: "30p", skill: "Grammar", completed: false },
-      { id: "w1-d5-s3", text: "Collocations: Luyện ghép 10 cụm từ Collocation ăn điểm cho Writing T2", duration: "30p", skill: "Vocab", completed: false }
-    ],
-    site: "Magoosh / Vocabulary.com",
-    url: "https://ielts.magoosh.com/flashcards",
-    note: ""
-  },
-  {
-    id: "w1-d6",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Thứ Bảy",
-    dateStr: "17/08",
-    skill: "Full Mock Test",
-    subtasks: [
-      { id: "w1-d6-s1", text: "Full Test: Làm 1 bài Mock Reading + Listening nghiêm túc 120p bấm giờ", duration: "120p", skill: "Mock Test", completed: false },
-      { id: "w1-d6-s2", text: "Review: Chấm điểm, ghi lại điểm số vào Mock Test Log & phân tích câu sai", duration: "30p", skill: "Analytics", completed: false }
-    ],
-    site: "IELTS Online Tests",
-    url: "https://ieltsonlinetests.com",
-    note: ""
-  },
-  {
-    id: "w1-d7",
-    weekNumber: 1,
-    weekTitle: "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
-    phase: 1,
-    day: "Chủ Nhật",
-    dateStr: "18/08",
-    skill: "Review & Rest",
-    subtasks: [
-      { id: "w1-d7-s1", text: "Review: Xem lại toàn bộ sổ tay từ vựng & lỗi sai đã ghi chép trong tuần", duration: "30p", skill: "Review", completed: false },
-      { id: "w1-d7-s2", text: "Entertainment: Nghe Podcast TED Talks / BBC 6 Minute English thư giãn", duration: "30p", skill: "Listening", completed: false }
-    ],
-    site: "BBC Learning English",
-    url: "https://www.bbc.co.uk/learningenglish",
-    note: ""
-  },
-  {
-    id: "w2-d1",
-    weekNumber: 2,
-    weekTitle: "Tuần 2: Nâng Cao Kỹ Năng Đoạn Văn & Từ Vựng C1",
-    phase: 1,
-    day: "Thứ Hai",
-    dateStr: "19/08",
-    skill: "Reading & Writing T1",
-    subtasks: [
-      { id: "w2-d1-s1", text: "Reading: Làm Passage 2 (Matching Headings) - Bấm giờ 20p", duration: "20p", skill: "Reading", completed: false },
-      { id: "w2-d1-s2", text: "Reading: Lập bảng Synonym Table phân tích lý do chọn sai Heading", duration: "30p", skill: "Reading", completed: false },
-      { id: "w2-d1-s3", text: "Writing T1: Viết bài Bar Chart so sánh 2 năm (Cụm từ tăng/giảm C1)", duration: "45p", skill: "Writing T1", completed: false }
-    ],
-    site: "IELTS Online Tests / IELTS Liz",
-    url: "https://ieltsonlinetests.com",
-    note: ""
+// Helper to generate full 32-week schedule (224 days with pre-populated subtasks)
+function generateFull32WeekSchedule() {
+  const tasks = [];
+  const daysOfWeek = [
+    { day: "Thứ Hai", skill: "Reading & Writing T1" },
+    { day: "Thứ Ba", skill: "Listening & Speaking P1/P2" },
+    { day: "Thứ Tư", skill: "Reading & Writing T2" },
+    { day: "Thứ Năm", skill: "Listening & Speaking P3" },
+    { day: "Thứ Sáu", skill: "Vocab SRS & Grammar" },
+    { day: "Thứ Bảy", skill: "Full Mock Test" },
+    { day: "Chủ Nhật", skill: "Review & Rest" }
+  ];
+
+  const w1Titles = [
+    "Tuần 1: Khởi Động & Chuẩn Hóa Phương Pháp",
+    "Tuần 2: Luyện Kỹ Thuật True/False/NG & Line Graph",
+    "Tuần 3: Chuyên Sâu Matching Headings & Bar Chart",
+    "Tuần 4: Luyện Listening Sec 2 & Speaking PPF",
+    "Tuần 5: Pie Chart, Table & Paragraph Building",
+    "Tuần 6: Listening Sec 3 & Part 3 PEEL Framework",
+    "Tuần 7: Map & Process Diagrams trong Task 1",
+    "Tuần 8: Writing Task 2 Opinion Essays",
+    "Tuần 9: Reading Multiple Choice & Synonym Tables",
+    "Tuần 10: Writing Task 2 Discussion Essays",
+    "Tuần 11: Listening Sec 4 Academic Talks",
+    "Tuần 12: Tổng Ôn Giai Đoạn 1 & Test Đánh Giá 6.5"
+  ];
+
+  const w2Titles = [
+    "Tuần 13: Bứt Phá Reading Passage 3 Bài Khó",
+    "Tuần 14: Listening Bẫy Từ Nối Change of Mind",
+    "Tuần 15: Writing Task 2 Problem-Solution Essays",
+    "Tuần 16: Speaking Part 2 Topics Nâng Cao C1",
+    "Tuần 17: Writing Task 2 Advantage-Disadvantage",
+    "Tuần 18: Reading Matching Features & Information",
+    "Tuần 19: Speaking Part 3 Phản Xạ Bài Khó",
+    "Tuần 20: Tăng Tốc Độ Đọc 20 Minute Rule/Passage",
+    "Tuần 21: Phân Tích Bài Mẫu Writing Band 8.0+",
+    "Tuần 22: Dictation Chép Chính Tả Listening Sec 4",
+    "Tuần 23: Cohesive Devices & Lexical Resource C1",
+    "Tuần 24: Tổng Ôn Giai Đoạn 2 & Test Đánh Giá 7.0"
+  ];
+
+  const w3Titles = [
+    "Tuần 25: Thực Chiến Full Test Môi Trường Máy Tính",
+    "Tuần 26: Kiểm Soát Thời Gian Nén 120 Phút",
+    "Tuần 27: Tối Ưu Hóa Điểm Listening & Reading 8.0+",
+    "Tuần 28: Luyện Đề Thi Thật IDP/BC Mới Nhất",
+    "Tuần 29: Khắc Phục Lỗi Sai Kinh Điển Cuối Cùng",
+    "Tuần 30: Full Test 4 Kỹ Năng Liền Tù Tì",
+    "Tuần 31: Tổng Duyệt Lần Cuối Hướng Tới Band 7.5"
+  ];
+
+  for (let w = 1; w <= 32; w++) {
+    let phase = 1;
+    let weekTitle = `Tuần ${w}: Luyện Tập Chuẩn Hóa Band 7.5`;
+
+    if (w <= 12) {
+      phase = 1;
+      weekTitle = w1Titles[w - 1] || weekTitle;
+    } else if (w <= 24) {
+      phase = 2;
+      weekTitle = w2Titles[w - 13] || weekTitle;
+    } else if (w <= 31) {
+      phase = 3;
+      weekTitle = w3Titles[w - 25] || weekTitle;
+    } else {
+      phase = 4;
+      weekTitle = "Tuần 32: Sprint Tuần Thi & Tổng Ôn Tâm Lý";
+    }
+
+    daysOfWeek.forEach((dInfo, dIdx) => {
+      const dayId = `w${w}-d${dIdx + 1}`;
+      let subtasks = [];
+
+      if (phase === 1) {
+        if (dIdx === 0) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Reading: Làm 1 bài Passage 1 (Cam 18/19) bấm giờ 20p`, duration: "20p", skill: "Reading", completed: w === 1 },
+            { id: `${dayId}-s2`, text: `Reading: Soi đáp án, tra từ mới & lập bảng Synonym Table`, duration: "35p", skill: "Reading", completed: w === 1 },
+            { id: `${dayId}-s3`, text: `Writing T1: Luyện viết Overview + 2 đoạn Body bài Line Graph/Bar Chart`, duration: "50p", skill: "Writing T1", completed: false }
+          ];
+        } else if (dIdx === 1) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Listening: Nghe Section 1 & 2 (Cam 18/19) + soi bẫy từ nối`, duration: "35p", skill: "Listening", completed: w === 1 },
+            { id: `${dayId}-s2`, text: `Speaking P1: Luyện 5 câu hỏi Part 1 theo 3 chủ đề phổ biến`, duration: "30p", skill: "Speaking", completed: w === 1 },
+            { id: `${dayId}-s3`, text: `Speaking P2: Thu âm bài nói 2 phút theo công thức PPF (Past-Present-Future)`, duration: "40p", skill: "Speaking", completed: w === 1 }
+          ];
+        } else if (dIdx === 2) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Reading: Luyện kĩ thuật True/False/Not Given & Matching Headings`, duration: "40p", skill: "Reading", completed: w === 1 },
+            { id: `${dayId}-s2`, text: `Writing T2: Lập dàn ý 4 đoạn cho đề Opinion / Discussion Essay`, duration: "25p", skill: "Writing T2", completed: w === 1 },
+            { id: `${dayId}-s3`, text: `Writing T2: Viết bài luận 250+ từ & kiểm tra lỗi chính tả/từ nối`, duration: "40p", skill: "Writing T2", completed: false }
+          ];
+        } else if (dIdx === 3) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Listening: Nghe Section 3 (Học sinh thảo luận) + ghi chú keywords`, duration: "40p", skill: "Listening", completed: false },
+            { id: `${dayId}-s2`, text: `Speaking P3: Luyện 3 câu hỏi Part 3 theo mô hình PEEL (Point-Explain-Example-Link)`, duration: "45p", skill: "Speaking", completed: false },
+            { id: `${dayId}-s3`, text: `Listening Dictation: Chép chính tả 1 đoạn audio BBC 6 Minute English`, duration: "20p", skill: "Listening", completed: false }
+          ];
+        } else if (dIdx === 4) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Vocab SRS: Học 20 Flashcards từ vựng B2-C1 trên mục Từ Vựng SRS`, duration: "30p", skill: "Vocab", completed: w === 1 },
+            { id: `${dayId}-s2`, text: `Grammar: Ôn lại cấu trúc Mệnh đề quan hệ & Cấu trúc câu ghép phức`, duration: "30p", skill: "Grammar", completed: false },
+            { id: `${dayId}-s3`, text: `Collocations: Học 10 cụm Collocation C1 dùng cho bài viết Task 2`, duration: "30p", skill: "Vocab", completed: false }
+          ];
+        } else if (dIdx === 5) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Full Test: Làm 1 bài Mock Reading + Listening nghiêm túc 120p bấm giờ`, duration: "120p", skill: "Mock Test", completed: false },
+            { id: `${dayId}-s2`, text: `Review: Chấm điểm, ghi lại điểm số vào Mock Test Log & soi câu sai`, duration: "30p", skill: "Analytics", completed: false }
+          ];
+        } else {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Review: Xem lại toàn bộ sổ tay từ vựng & lỗi sai đã ghi chép trong tuần`, duration: "30p", skill: "Review", completed: false },
+            { id: `${dayId}-s2`, text: `Entertainment: Nghe Podcast TED Talks / BBC 6 Minute English thư giãn`, duration: "30p", skill: "Listening", completed: false }
+          ];
+        }
+      } else if (phase === 2) {
+        if (dIdx === 0) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Reading: Giải bài Passage 3 chuyên sâu (Khoa học/Lịch sử khó) trong 20p`, duration: "20p", skill: "Reading", completed: false },
+            { id: `${dayId}-s2`, text: `Reading: Phân tích chi tiết câu sai & bổ sung 15 từ vựng C1 vào SRS`, duration: "40p", skill: "Reading", completed: false },
+            { id: `${dayId}-s3`, text: `Writing T1: Luyện viết bài Process / Map Diagram nâng cao`, duration: "45p", skill: "Writing T1", completed: false }
+          ];
+        } else if (dIdx === 1) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Listening: Luyện Section 4 (Bài giảng chuyên ngành) tốc độ 1.25x`, duration: "40p", skill: "Listening", completed: false },
+            { id: `${dayId}-s2`, text: `Speaking P2: Thu âm Part 2 chủ đề khó (Kinh tế, Môi trường, Công nghệ)`, duration: "40p", skill: "Speaking", completed: false },
+            { id: `${dayId}-s3`, text: `Speaking P3: Trả lời phản xạ 4 câu hỏi thảo luận sâu với PEEL`, duration: "30p", skill: "Speaking", completed: false }
+          ];
+        } else if (dIdx === 2) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Reading: Luyện dạng Multiple Choice & Matching Features bài Passage 3`, duration: "40p", skill: "Reading", completed: false },
+            { id: `${dayId}-s2`, text: `Writing T2: Viết bài luận Problem-Solution / Advantage-Disadvantage`, duration: "50p", skill: "Writing T2", completed: false },
+            { id: `${dayId}-s3`, text: `Writing T2: So sánh bài viết với bài mẫu Band 8.0+ của IELTS Liz`, duration: "30p", skill: "Writing T2", completed: false }
+          ];
+        } else if (dIdx === 3) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Listening: Dictation chép chính tả 1 đoạn Section 4 nâng phản xạ từ khó`, duration: "35p", skill: "Listening", completed: false },
+            { id: `${dayId}-s2`, text: `Speaking P3: Dùng các Discourse Markers tự nhiên (Well, having said that...)`, duration: "35p", skill: "Speaking", completed: false }
+          ];
+        } else if (dIdx === 4) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Vocab SRS: Ôn 30 Flashcards từ vựng C1/C2 đến lịch hẹn`, duration: "30p", skill: "Vocab", completed: false },
+            { id: `${dayId}-s2`, text: `Error Log: Ôn lại toàn bộ các bẫy Listening/Reading đã ghi chép`, duration: "30p", skill: "Review", completed: false }
+          ];
+        } else if (dIdx === 5) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Full Test: Làm 1 bài Mock Test Listening + Reading + Writing (180p)`, duration: "180p", skill: "Mock Test", completed: false },
+            { id: `${dayId}-s2`, text: `Analytics: Cập nhật điểm số vào biểu đồ tiến độ Recharts`, duration: "20p", skill: "Analytics", completed: false }
+          ];
+        } else {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Weekly Summary: Xem lại tổng kết tuần trên mục Báo Cáo Tổng Kết`, duration: "20p", skill: "Review", completed: false },
+            { id: `${dayId}-s2`, text: `Listening Passive: Nghe tin tức BBC World Service giải trí`, duration: "30p", skill: "Listening", completed: false }
+          ];
+        }
+      } else if (phase === 3) {
+        if (dIdx === 0) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Reading: Làm Full Reading Test 3 Passages (60p) áp lực thi máy IOT`, duration: "60p", skill: "Reading", completed: false },
+            { id: `${dayId}-s2`, text: `Reading: Phân tích tận gốc câu sai, ghi lại bẫy vào Sổ tay Lỗi sai`, duration: "30p", skill: "Reading", completed: false }
+          ];
+        } else if (dIdx === 1) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Listening: Làm Full Listening Test 40 câu (40p) áp lực thi thật`, duration: "40p", skill: "Listening", completed: false },
+            { id: `${dayId}-s2`, text: `Speaking: Thu âm Full Speaking 3 Part (15p) giống như đối thoại giám khảo`, duration: "30p", skill: "Speaking", completed: false }
+          ];
+        } else if (dIdx === 2) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Writing T1: Viết bài Task 1 trong đúng 20 phút chuẩn xác`, duration: "20p", skill: "Writing T1", completed: false },
+            { id: `${dayId}-s2`, text: `Writing T2: Viết bài Task 2 trong đúng 40 phút đủ 250+ từ`, duration: "40p", skill: "Writing T2", completed: false },
+            { id: `${dayId}-s3`, text: `Writing Self-Check: Dùng Checklist Band 7.5 tự chấm 4 tiêu chí`, duration: "20p", skill: "Writing T2", completed: false }
+          ];
+        } else if (dIdx === 3) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Skill Focus: Tập trung kỹ năng còn xa mốc 7.5 nhất (Speaking/Writing)`, duration: "60p", skill: "Weakness Focus", completed: false }
+          ];
+        } else if (dIdx === 4) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Vocab SRS: Ôn 50 Flashcards từ vựng C1/C2 đã tích lũy`, duration: "40p", skill: "Vocab", completed: false }
+          ];
+        } else if (dIdx === 5) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Full Mock Test: Thi thử Full 4 Kỹ năng liên tục trong 1 ngày`, duration: "200p", skill: "Mock Test", completed: false },
+            { id: `${dayId}-s2`, text: `Log: Nhập điểm số vào hệ thống & ăn mừng nếu đạt 7.5+!`, duration: "15p", skill: "Analytics", completed: false }
+          ];
+        } else {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Rest & Reflection: Nghỉ ngơi thư giãn, duy trì năng lượng tích cực`, duration: "30p", skill: "Rest", completed: false }
+          ];
+        }
+      } else {
+        // Phase 4: Final Exam Week (Week 32)
+        if (dIdx === 0 || dIdx === 1 || dIdx === 2) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Review: Ôn lại toàn bộ Sổ Tay Từ Vựng C1 & Lỗi Sai Thường Gặp`, duration: "40p", skill: "Vocab", completed: false },
+            { id: `${dayId}-s2`, text: `Listening/Reading: Làm 1 bài test nhẹ nhàng duy trì cảm giác đề`, duration: "40p", skill: "Practice", completed: false }
+          ];
+        } else if (dIdx === 3 || dIdx === 4) {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Checklist: Đọc lại Checklist Tiêu Chí Chấm Điểm Band 7.5`, duration: "30p", skill: "Checklist", completed: false },
+            { id: `${dayId}-s2`, text: `Prep: Chuẩn bị Căn cước công dân / Hộ chiếu & phiếu dự thi`, duration: "20p", skill: "Admin", completed: false }
+          ];
+        } else {
+          subtasks = [
+            { id: `${dayId}-s1`, text: `Exam Day: Tự tin bước vào phòng thi & chinh phục mốc 7.5 Overall! 🎓`, duration: "240p", skill: "Official Exam", completed: false }
+          ];
+        }
+      }
+
+      tasks.push({
+        id: dayId,
+        weekNumber: w,
+        weekTitle: weekTitle,
+        phase: phase,
+        day: dInfo.day,
+        dateStr: "",
+        skill: dInfo.skill,
+        subtasks: subtasks,
+        site: dIdx === 5 ? "IELTS Online Tests" : "IELTS Online Tests / IELTS Liz",
+        url: "https://ieltsonlinetests.com",
+        note: ""
+      });
+    });
   }
-];
+
+  return tasks;
+}
+
+export const defaultScheduleTasks = generateFull32WeekSchedule();
 
 export const initialMockScores = [
   {
