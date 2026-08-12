@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS 7.5 Study Tracker & Roadmap (08/2026 - 03/2027)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap"></i> IELTS 7.5 Study Tracker
+                </h1>
+                <p class="text-indigo-200 text-sm mt-1">Lộ trình ôn thi Bứt phá Band từ 6.0 lên 7.5 (T8/2026 - T3/2027)</p>
+            </div>
+            
+            <div class="flex items-center gap-6 bg-indigo-800/60 px-4 py-2 rounded-xl border border-indigo-500/30">
+                <div class="text-center">
+                    <div class="text-xs text-indigo-300">Hiện tại</div>
+                    <div class="text-lg font-bold text-yellow-400">6.0</div>
+                </div>
+                <div class="text-indigo-400 font-bold"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="text-center">
+                    <div class="text-xs text-indigo-300">Mục tiêu</div>
+                    <div class="text-lg font-bold text-green-400">7.5</div>
+                </div>
+                <div class="h-8 w-px bg-indigo-600"></div>
+                <div class="text-center">
+                    <div class="text-xs text-indigo-300">Hạn thi</div>
+                    <div class="text-sm font-semibold text-white">Tháng 03/2027</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Tab Navigation -->
+        <div class="flex border-b border-slate-200 mb-6 space-x-2 sm:space-x-4 overflow-x-auto custom-scrollbar">
+            <button onclick="switchTab('schedule')" id="tab-schedule" class="tab-btn active px-4 py-3 font-semibold text-sm rounded-t-lg border-b-2 border-indigo-600 text-indigo-600 bg-white shadow-sm flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-regular fa-calendar-check"></i> Lịch Học & Checklist Hàng Ngày
+            </button>
+            <button onclick="switchTab('mocktests')" id="tab-mocktests" class="tab-btn px-4 py-3 font-semibold text-sm rounded-t-lg border-b-2 border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-chart-line"></i> Nhật Ký Điểm Thi (Mock Tests)
+            </button>
+            <button onclick="switchTab('vocab')" id="tab-vocab" class="tab-btn px-4 py-3 font-semibold text-sm rounded-t-lg border-b-2 border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-book-bookmark"></i> Sổ Tay Từ Vựng & Lỗi Sai
+            </button>
+            <button onclick="switchTab('resources')" id="tab-resources" class="tab-btn px-4 py-3 font-semibold text-sm rounded-t-lg border-b-2 border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100 flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-globe"></i> Kho Web Luyện Đề Miễn Phí
+            </button>
+        </div>
+
+        <!-- TAB 1: DAILY SCHEDULE & CHECKLIST -->
+        <div id="content-schedule" class="tab-content">
+            <!-- Phase Filter & Summary -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800">Lịch Học Theo Tuần Chuẩn Hóa</h2>
+                    <p class="text-sm text-slate-500">Tích chọn các nhiệm vụ đã hoàn thành mỗi ngày. Mức độ hoàn thành được tự động lưu trên máy của bạn.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-medium text-slate-600">Giai đoạn:</span>
+                    <select id="phase-select" onchange="filterPhase()" class="bg-slate-100 border border-slate-300 text-slate-800 text-sm rounded-lg p-2.5 font-medium focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="all">Toàn bộ lộ trình (T8/2026 - T3/2027)</option>
+                        <option value="1">Giai đoạn 1: Nền tảng & Củng cố (T8 - T10/2026)</option>
+                        <option value="2">Giai đoạn 2: Nâng Band Chuyên sâu (T11/2026 - T1/2027)</option>
+                        <option value="3">Giai đoạn 3: Thực chiến Full Test (T2 - T3/2027)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-semibold text-slate-700">Tiến độ hoàn thành nhiệm vụ tuần này</span>
+                    <span id="weekly-progress-text" class="text-sm font-bold text-indigo-600">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-3">
+                    <div id="weekly-progress-bar" class="bg-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Weekly Schedule Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="p-4 w-12 text-center">Xong</th>
+                                <th class="p-4 w-28">Thứ / Ngày</th>
+                                <th class="p-4 w-32">Kỹ năng</th>
+                                <th class="p-4">Nhiệm vụ chi tiết</th>
+                                <th class="p-4 w-44">Trang web hỗ trợ</th>
+                                <th class="p-4 w-28 text-center">Thời lượng</th>
+                                <th class="p-4 w-40">Ghi chú cá nhân</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-tbody" class="divide-y divide-slate-100">
+                            <!-- Rows loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: MOCK TESTS SCORE LOG -->
+        <div id="content-mocktests" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6">
+                <h2 class="text-lg font-bold text-slate-800 mb-2">Bảng Theo Dõi Điểm Thi Thử (Mock Test Tracker)</h2>
+                <p class="text-sm text-slate-500 mb-4">Ghi lại điểm số các bài Full Test hoặc Section Test để theo dõi sự tiến bộ hướng tới mốc 7.5 Overall.</p>
+                
+                <form id="score-form" onsubmit="addScore(event)" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="col-span-2 md:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Ngày làm bài</label>
+                        <input type="date" id="test-date" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div class="col-span-2 md:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Nguồn đề / Trang web</label>
+                        <input type="text" id="test-source" placeholder="VD: IELTS Online Tests Vol 4" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Listening</label>
+                        <input type="number" step="0.5" min="0" max="9" id="score-l" placeholder="6.5" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Reading</label>
+                        <input type="number" step="0.5" min="0" max="9" id="score-r" placeholder="6.0" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Writing</label>
+                        <input type="number" step="0.5" min="0" max="9" id="score-w" placeholder="6.0" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Speaking</label>
+                        <input type="number" step="0.5" min="0" max="9" id="score-s" placeholder="5.5" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div class="col-span-2 md:col-span-8 flex justify-end">
+                        <button type="submit" class="bg-indigo-600 text-white font-medium px-5 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-plus"></i> Thêm Điểm Số
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Scores Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">Ngày</th>
+                                <th class="p-4">Nguồn Đề</th>
+                                <th class="p-4 text-center">Listening</th>
+                                <th class="p-4 text-center">Reading</th>
+                                <th class="p-4 text-center">Writing</th>
+                                <th class="p-4 text-center">Speaking</th>
+                                <th class="p-4 text-center font-bold text-indigo-700">Overall</th>
+                                <th class="p-4 text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scores-tbody" class="divide-y divide-slate-100">
+                            <!-- Score rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: VOCABULARY & ERROR LOG -->
+        <div id="content-vocab" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6">
+                <h2 class="text-lg font-bold text-slate-800 mb-2">Sổ Tay Từ Vựng Học Thuật & Ghi Chú Lỗi Sai</h2>
+                <p class="text-sm text-slate-500 mb-4">Ghi lại các từ vựng C1/C2, Collocations,Idioms và các lỗi sai kinh điển trong Listening/Reading để tránh lặp lại.</p>
+
+                <form id="vocab-form" onsubmit="addVocab(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Từ vựng / Cấu trúc / Lỗi sai</label>
+                        <input type="text" id="vocab-word" placeholder="VD: Substantial increase" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Giải nghĩa & Collocation</label>
+                        <input type="text" id="vocab-meaning" placeholder="Tăng đáng kể (dùng trong Writing Task 1)" required class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Chủ đề / Dạng bài</label>
+                        <select id="vocab-topic" class="w-full p-2 text-sm border border-slate-300 rounded-lg">
+                            <option>Writing Task 1</option>
+                            <option>Writing Task 2</option>
+                            <option>Speaking Part 1/2/3</option>
+                            <option>Reading Synonym</option>
+                            <option>Listening Distactor</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button type="submit" class="w-full bg-emerald-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-emerald-700 transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-bookmark"></i> Lưu Từ Mới
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Vocab Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="p-4 w-1/4">Từ / Cấu trúc / Lỗi sai</th>
+                                <th class="p-4 w-2/5">Ý nghĩa & Cách dùng</th>
+                                <th class="p-4 w-1/5">Phân loại</th>
+                                <th class="p-4 text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vocab-tbody" class="divide-y divide-slate-100">
+                            <!-- Vocab rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: RESOURCES DIRECTORY -->
+        <div id="content-resources" class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">IELTS Online Tests</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">100% Miễn phí</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Kho đề thi thử Reading & Listening khổng lồ, giao diện thi trên máy tính hệt như thi thật tại IDP/BC. Có bấm giờ và giải thích chi tiết.</p>
+                    </div>
+                    <a href="https://ieltsonlinetests.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-indigo-50 text-indigo-700 font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-indigo-100 transition w-full">
+                        Truy cập IOT <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-stopwatch"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Mini-IELTS</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">100% Miễn phí</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Rất tốt để luyện từng dạng câu hỏi ngắn (10-15 phút) cho Reading và Listening khi bạn không có đủ thời gian làm full test.</p>
+                    </div>
+                    <a href="https://mini-ielts.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-blue-50 text-blue-700 font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-blue-100 transition w-full">
+                        Truy cập Mini-IELTS <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-user-ninja"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">IELTS Liz</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">100% Miễn phí</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Trang web của cựu giám khảo IELTS Liz. Cung cấp bài mẫu Writing/Speaking chuẩn Band 8.0+ và mẹo làm bài đơn giản, hiệu quả.</p>
+                    </div>
+                    <a href="https://ieltsliz.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-amber-50 text-amber-700 font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-amber-100 transition w-full">
+                        Truy cập IELTS Liz <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Magoosh IELTS Flashcards</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">100% Miễn phí</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Bộ từ vựng IELTS phân chia theo cấp độ từ cơ bản đến nâng cao. Học qua flashcard ứng dụng thuật toán lặp lại ngắt quãng (SRS).</p>
+                    </div>
+                    <a href="https://ielts.magoosh.com/flashcards" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-purple-50 text-purple-700 font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-purple-100 transition w-full">
+                        Truy cập Magoosh <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-headphones"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">BBC Learning English</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">100% Miễn phí</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Luyện nghe giọng Anh - Anh chuẩn qua series 6 Minute English. Cực kỳ thích hợp để nâng phản xạ và củng cố phát âm chuẩn.</p>
+                    </div>
+                    <a href="https://www.bbc.co.uk/learningenglish" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-rose-50 text-rose-700 font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-rose-100 transition w-full">
+                        Truy cập BBC English <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-spell-check"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Vocabulary.com</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">100% Miễn phí</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Công cụ giải nghĩa từ vựng tự nhiên qua ngữ cảnh đời thực. Giúp bạn hiểu sâu sắc nuance (sắc thái) từ ngữ để dùng đúng trong Writing Task 2.</p>
+                    </div>
+                    <a href="https://www.vocabulary.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 bg-teal-50 text-teal-700 font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-teal-100 transition w-full">
+                        Truy cập Vocabulary.com <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Data structure for Weekly Default Tasks
+        const defaultSchedule = [
+            { id: 1, day: "Thứ Hai", skill: "Reading & Writing T1", task: "Luyện 1 bài Passage Reading (Passage 1/2) + Phân tích câu sai. Viết 1 bài Writing Task 1 (Bar/Line/Map).", site: "IELTS Online Tests / IELTS Liz", url: "https://ieltsonlinetests.com", time: "105 phút", phase: 1 },
+            { id: 2, day: "Thứ Ba", skill: "Listening & Speaking P1/P2", task: "Luyện Listening Section 1 & 2. Thu âm Speaking Part 1 & Part 2 theo đề thi thực tế.", site: "Mini-IELTS / IELTS Liz", url: "https://mini-ielts.com", time: "105 phút", phase: 1 },
+            { id: 3, day: "Thứ Tư", skill: "Reading & Writing T2", task: "Phân tích kĩ thuật True/False/Not Given bài Reading. Lập dàn ý & viết 1 bài Writing Task 2.", site: "IELTS Online Tests / IELTS Liz", url: "https://ieltsonlinetests.com", time: "105 phút", phase: 1 },
+            { id: 4, day: "Thứ Năm", skill: "Listening & Speaking P3", task: "Luyện Listening Section 3 & 4 (Phân tích bẫy Synonyms). Luyện Speaking Part 3 theo mô hình PEEL.", site: "Mini-IELTS / BBC Learning", url: "https://www.bbc.co.uk/learningenglish", time: "105 phút", phase: 1 },
+            { id: 5, day: "Thứ Sáu", skill: "Vocab & Grammar", task: "Học 20 Flashcards từ vựng B2-C1 theo chủ đề. Ôn lại các cấu trúc câu phức & mệnh đề quan hệ.", site: "Magoosh / Vocabulary.com", url: "https://ielts.magoosh.com/flashcards", time: "90 phút", phase: 1 },
+            { id: 6, day: "Thứ Bảy", skill: "Full Mock Test", task: "Làm 1 bài Full Test Reading + Listening nghiêm túc trong đúng 120 phút. Chấm điểm & soi câu sai.", site: "IELTS Online Tests", url: "https://ieltsonlinetests.com", time: "150 phút", phase: 1 },
+            { id: 7, day: "Chủ Nhật", skill: "Review & Thư giãn", task: "Nghe Podcast BBC / TED Talks giải trí. Ôn lại toàn bộ từ vựng đã học trong tuần từ sổ tay.", site: "BBC Learning English", url: "https://www.bbc.co.uk/learningenglish", time: "45 phút", phase: 1 }
+        ];
+
+        // Sample initial Mock Scores
+        const initialScores = [
+            { id: 1, date: "2026-08-10", source: "IELTS Online Tests - Vol 1", l: 6.5, r: 6.0, w: 6.0, s: 5.5, overall: 6.0 }
+        ];
+
+        // Sample initial Vocab
+        const initialVocab = [
+            { id: 1, word: "Substantial increase", meaning: "Sự tăng trưởng đáng kể (thay cho 'big increase')", topic: "Writing Task 1" },
+            { id: 2, word: "Pivotal role", meaning: "Vai trò then chốt (Play a pivotal role in...)", topic: "Writing Task 2" },
+            { id: 3, word: "Distactor in Listening", meaning: "Cần chú ý các từ đổi hướng như 'However', 'Actually', 'Instead'", topic: "Listening Distractor" }
+        ];
+
+        // Local Storage Handlers
+        let savedSchedule = JSON.parse(localStorage.getItem('ielts_schedule_checks')) || {};
+        let savedNotes = JSON.parse(localStorage.getItem('ielts_schedule_notes')) || {};
+        let mockScores = JSON.parse(localStorage.getItem('ielts_scores')) || initialScores;
+        let vocabList = JSON.parse(localStorage.getItem('ielts_vocab')) || initialVocab;
+
+        // Initialize Page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSchedule('all');
+            renderScores();
+            renderVocab();
+            // Set default date input to today
+            const dateInput = document.getElementById('test-date');
+            if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-indigo-600', 'text-indigo-600', 'bg-white', 'shadow-sm');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('active', 'border-indigo-600', 'text-indigo-600', 'bg-white', 'shadow-sm');
+            activeBtn.classList.remove('border-transparent', 'text-slate-500');
+
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+        }
+
+        // Render Schedule Table
+        function renderSchedule(filterPhaseVal) {
+            const tbody = document.getElementById('schedule-tbody');
+            tbody.innerHTML = '';
+
+            let totalCount = 0;
+            let checkedCount = 0;
+
+            defaultSchedule.forEach(item => {
+                const isChecked = savedSchedule[item.id] || false;
+                const noteVal = savedNotes[item.id] || '';
+
+                totalCount++;
+                if (isChecked) checkedCount++;
+
+                const row = document.createElement('tr');
+                row.className = isChecked ? 'bg-indigo-50/40 hover:bg-indigo-50/70 transition' : 'hover:bg-slate-50 transition';
+
+                row.innerHTML = `
+                    <td class="p-4 text-center">
+                        <input type="checkbox" onchange="toggleTask(${item.id})" ${isChecked ? 'checked' : ''} class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
+                    </td>
+                    <td class="p-4 font-semibold text-slate-800">${item.day}</td>
+                    <td class="p-4">
+                        <span class="inline-block px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">${item.skill}</span>
+                    </td>
+                    <td class="p-4 text-slate-700 ${isChecked ? 'line-through text-slate-400' : ''}">${item.task}</td>
+                    <td class="p-4">
+                        <a href="${item.url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-medium inline-flex items-center gap-1">
+                            ${item.site} <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </td>
+                    <td class="p-4 text-center text-slate-500 font-medium">${item.time}</td>
+                    <td class="p-4">
+                        <input type="text" value="${noteVal}" onchange="saveNote(${item.id}, this.value)" placeholder="Thêm ghi chú..." class="w-full text-xs p-1.5 border border-slate-200 rounded focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Update Progress Bar
+            const percent = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
+            document.getElementById('weekly-progress-bar').style.width = `${percent}%`;
+            document.getElementById('weekly-progress-text').innerText = `${percent}% (${checkedCount}/${totalCount} nhiệm vụ)`;
+        }
+
+        function toggleTask(id) {
+            savedSchedule[id] = !savedSchedule[id];
+            localStorage.setItem('ielts_schedule_checks', JSON.stringify(savedSchedule));
+            renderSchedule(document.getElementById('phase-select').value);
+        }
+
+        function saveNote(id, val) {
+            savedNotes[id] = val;
+            localStorage.setItem('ielts_schedule_notes', JSON.stringify(savedNotes));
+        }
+
+        function filterPhase() {
+            const val = document.getElementById('phase-select').value;
+            renderSchedule(val);
+        }
+
+        // Render Mock Scores
+        function renderScores() {
+            const tbody = document.getElementById('scores-tbody');
+            tbody.innerHTML = '';
+
+            mockScores.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-50 transition';
+                row.innerHTML = `
+                    <td class="p-4 text-slate-600">${item.date}</td>
+                    <td class="p-4 font-medium text-slate-800">${item.source}</td>
+                    <td class="p-4 text-center font-medium">${item.l}</td>
+                    <td class="p-4 text-center font-medium">${item.r}</td>
+                    <td class="p-4 text-center font-medium">${item.w}</td>
+                    <td class="p-4 text-center font-medium">${item.s}</td>
+                    <td class="p-4 text-center font-bold text-indigo-600 text-base">${item.overall}</td>
+                    <td class="p-4 text-center">
+                        <button onclick="deleteScore(${index})" class="text-rose-500 hover:text-rose-700 font-medium text-xs">
+                            <i class="fa-solid fa-trash"></i> Xóa
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function addScore(e) {
+            e.preventDefault();
+            const l = parseFloat(document.getElementById('score-l').value);
+            const r = parseFloat(document.getElementById('score-r').value);
+            const w = parseFloat(document.getElementById('score-w').value);
+            const s = parseFloat(document.getElementById('score-s').value);
+
+            // Calculate overall band (IELTS rounding rules)
+            const avg = (l + r + w + s) / 4;
+            const decimal = avg % 1;
+            let overall = Math.floor(avg);
+            if (decimal >= 0.25 && decimal < 0.75) {
+                overall += 0.5;
+            } else if (decimal >= 0.75) {
+                overall += 1.0;
+            }
+
+            const newScore = {
+                id: Date.now(),
+                date: document.getElementById('test-date').value,
+                source: document.getElementById('test-source').value,
+                l, r, w, s,
+                overall: overall.toFixed(1)
+            };
+
+            mockScores.push(newScore);
+            localStorage.setItem('ielts_scores', JSON.stringify(mockScores));
+            renderScores();
+
+            document.getElementById('test-source').value = '';
+            document.getElementById('score-l').value = '';
+            document.getElementById('score-r').value = '';
+            document.getElementById('score-w').value = '';
+            document.getElementById('score-s').value = '';
+        }
+
+        function deleteScore(index) {
+            mockScores.splice(index, 1);
+            localStorage.setItem('ielts_scores', JSON.stringify(mockScores));
+            renderScores();
+        }
+
+        // Render Vocab
+        function renderVocab() {
+            const tbody = document.getElementById('vocab-tbody');
+            tbody.innerHTML = '';
+
+            vocabList.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-50 transition';
+                row.innerHTML = `
+                    <td class="p-4 font-bold text-indigo-900">${item.word}</td>
+                    <td class="p-4 text-slate-700">${item.meaning}</td>
+                    <td class="p-4">
+                        <span class="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">${item.topic}</span>
+                    </td>
+                    <td class="p-4 text-center">
+                        <button onclick="deleteVocab(${index})" class="text-rose-500 hover:text-rose-700 font-medium text-xs">
+                            <i class="fa-solid fa-trash"></i> Xóa
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function addVocab(e) {
+            e.preventDefault();
+            const newItem = {
+                id: Date.now(),
+                word: document.getElementById('vocab-word').value,
+                meaning: document.getElementById('vocab-meaning').value,
+                topic: document.getElementById('vocab-topic').value
+            };
+
+            vocabList.push(newItem);
+            localStorage.setItem('ielts_vocab', JSON.stringify(vocabList));
+            renderVocab();
+
+            document.getElementById('vocab-word').value = '';
+            document.getElementById('vocab-meaning').value = '';
+        }
+
+        function deleteVocab(index) {
+            vocabList.splice(index, 1);
+            localStorage.setItem('ielts_vocab', JSON.stringify(vocabList));
+            renderVocab();
+        }
+    </script>
+</body>
+</html>
