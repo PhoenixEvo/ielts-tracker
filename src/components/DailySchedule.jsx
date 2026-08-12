@@ -1,5 +1,18 @@
-import React, { useState } from 'react';
-import { CheckSquare, Calendar, Clock, ExternalLink, Plus, Flame, ChevronDown, ChevronUp, Trash2, CheckCircle2, ListPlus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckSquare, Calendar, Clock, ExternalLink, Plus, Flame, ChevronDown, ChevronUp, Trash2, CheckCircle2, ListPlus, Compass, Navigation } from 'lucide-react';
+
+/**
+ * Calculates current week index (1 to 32) based on roadmap start date
+ */
+function calculateCurrentWeekIndex(startDateStr) {
+  const start = new Date(startDateStr || '2026-08-01');
+  const now = new Date();
+  const diffTime = now - start;
+  if (diffTime < 0) return 1;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const weekNum = Math.floor(diffDays / 7) + 1;
+  return Math.min(32, Math.max(1, weekNum));
+}
 
 export default function DailySchedule({
   scheduleTasks,
@@ -7,8 +20,9 @@ export default function DailySchedule({
   userProfile,
   setUserProfile
 }) {
+  const currentWeekNumber = calculateCurrentWeekIndex(userProfile.startDate);
   const [selectedPhase, setSelectedPhase] = useState('all');
-  const [selectedWeek, setSelectedWeek] = useState(1);
+  const [selectedWeek, setSelectedWeek] = useState(currentWeekNumber);
   const [expandedDays, setExpandedDays] = useState({});
 
   // Subtask addition form state per day
@@ -18,6 +32,11 @@ export default function DailySchedule({
 
   // Available weeks
   const availableWeeks = Array.from(new Set(scheduleTasks.map(t => t.weekNumber || 1))).sort((a, b) => a - b);
+
+  // Auto set current week on mount
+  useEffect(() => {
+    setSelectedWeek(currentWeekNumber);
+  }, [currentWeekNumber]);
 
   // Filter tasks by Phase and Week
   const weekTasks = scheduleTasks.filter(task => {
@@ -139,18 +158,31 @@ export default function DailySchedule({
       {/* Week & Phase Selector Header */}
       <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <CheckSquare className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            Lịch Học & Sub-Tasks Chi Tiết Từng Ngày
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Chia nhỏ nhiệm vụ từng ngày thành các **Sub-Tasks** cụ thể (bấm giờ, làm đề, sửa câu sai, nạp từ vựng).
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+              <CheckSquare className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              Lịch Học & Sub-Tasks Chi Tiết Từng Ngày
+            </h2>
+            <span className="text-[10px] font-extrabold bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+              📍 Đang ở Tuần {currentWeekNumber}
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Hệ thống tự động chuyển sang tuần mới theo thời gian thực trên lịch hệ thống của bạn.
           </p>
         </div>
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           
+          {/* Jump to current week button */}
+          <button
+            onClick={() => setSelectedWeek(currentWeekNumber)}
+            className="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-100 px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-800 flex items-center gap-1.5 transition"
+          >
+            <Navigation className="w-3.5 h-3.5" /> Tuần Hiện Tại (Tuần {currentWeekNumber})
+          </button>
+
           {/* Phase Select */}
           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
             <span>Giai đoạn:</span>
@@ -168,7 +200,7 @@ export default function DailySchedule({
 
           {/* Week Select */}
           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
-            <span>Tuần:</span>
+            <span>Chọn Tuần:</span>
             <select
               value={selectedWeek}
               onChange={(e) => setSelectedWeek(e.target.value)}
@@ -176,7 +208,7 @@ export default function DailySchedule({
             >
               {availableWeeks.map(w => (
                 <option key={w} value={w}>
-                  Tuần {w} {w === 1 ? '(12/08 - 18/08)' : w === 2 ? '(19/08 - 25/08)' : ''}
+                  Tuần {w} {w === currentWeekNumber ? '(📍 Hiện tại)' : ''}
                 </option>
               ))}
             </select>
@@ -190,7 +222,7 @@ export default function DailySchedule({
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
           <div>
             <span className="text-[10px] uppercase tracking-wider font-extrabold bg-indigo-500/30 text-indigo-200 px-3 py-1 rounded-full border border-indigo-400/30 mb-2 inline-block">
-              {weekTasks[0]?.weekTitle || `Tuần ${selectedWeek}`}
+              {weekTasks[0]?.weekTitle || `Tuần ${selectedWeek}`} {selectedWeek === currentWeekNumber && '• (📍 Đang Học)'}
             </span>
             <h3 className="text-xl font-extrabold text-white">
               Tiến Độ Hoàn Thành Sub-Tasks Tuần {selectedWeek}
